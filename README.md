@@ -1,6 +1,6 @@
 # About
 
-Tango PCB with DosBox configuration file.
+Tango PCB in DosBox PC emulator.
 
 # DosBox Install
 
@@ -18,4 +18,4 @@ Ubuntu:
 
 # Notes
 
-In DosBox, C:\ is mapped to the repository root directory.
+C:\ is mapped to the repository root directory.
