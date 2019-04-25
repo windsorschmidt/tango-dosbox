@@ -1,0 +1,129 @@
+
+
+
+
+       ==ORCADNET.DOC===========Info on TANGO.CF File============Version 1.1==
+
+
+
+
+       OrCAD/SDT users  have been stymied in their use of Tango-PCB and Tango-
+       PCB PLUS  since Tango  was updated  to Version  2.   At  that  time  an
+       autoplacement feature was added to Tango-PCB PLUS and thus both PCB and
+       PCB PLUS  began to  care about  what was  on the  second  line  of  the
+       component section of the Tango-format net list.  Heretofore, the second
+       line was ignored.  The component section of the net list looks thus:
+
+       [
+       refdes
+       package
+       type
+       value (for certain components)
+       (blank line)
+       (blank line)
+       ]
+
+       OrCAD/SDT's net  list generator  has  routinely  placed  the  component
+       "type"  on   the  "package"  line  should  no  package  information  be
+       available.   The "type"  is then  specified a second time on the "type"
+       line.
+
+       For the  sake of  clarity, terminology by ACCEL and OrCAD translates as
+       follows:
+
+            Tango/ACCEL              OrCAD
+            -----------              -----
+            RefDes                   Reference
+            Package (aka Pattern)    Module Name
+            Type                     Part Name (aka Part Value)
+
+
+       With the  introduction of  OrCAD/SDT IV, the net list formats have been
+       externalized to the program and are interpreted at run time.  Therefore
+       it was possible to edit the TANGO.CF net list configuration file to fix
+       the aforementioned problem.
+
+       Using the new TANGO.CF file (a note within the file indicates it is now
+       called Version 1.1 to distinguish it from the original file), OrCAD/SDT
+       4.04 users  can generate  a net  list which will leave the Package line
+       blank if  the components  on the schematic were not edited with Package
+       information.
+
+       However, users  of Tango-PCB PLUS wishing to take full advantage of its
+       autoplacement facility  should read  on.   OrCAD/SDT will permit you to
+       edit components  on the  sheet and  place Package  information with the
+       component.    By  properly  configuring  the  net  list  generator,  as
+       described below,  this Package  information will  then be placed on the
+       Package line  of the net list.  Then, after being loaded into Tango-PCB
+       PLUS, the components may be autoplaced, saving a lot of time.
+
+       To edit  the components  in OrCAD/SDT Draft, run the Edit Part command,
+       select one  of the  available "Part  Fields" 1 through 8, (we recommend
+
+
+
+                                       Page 1
+
+
+
+       ==ORCADNET.DOC===========Info on TANGO.CF File============Version 1.1==
+
+
+       using the  "1st Part  Field"), select "Name" on the next menu, and then
+       type in  the name  of the  Package (ie,  DIP16) that you wish to use in
+       Tango-PCB PLUS for that component.  All parts of a multi-part component
+       should have identical Package names.  (See page 77 of the SDT Reference
+       Guide for information on Edit Part, and page 34 for more information on
+       "Key fields.")
+
+       Now, prior to executing the net list select "Configure Schematic Design
+       Tools."   Page down  several times  until you  find the section "Create
+       Netlist."   Under that  section are two parameters:  In the "Part Value
+       Combine" field,  key in a "V"  --  In the "Module Value Combine" field,
+       key in  the number  of the Part Field you selected to place the Package
+       information.   For example,  if using  Edit Part you placed the Package
+       name in  the 1st  Part Field, key in "1."  If you selected the 8th Part
+       Field, key  in an  "8." (See  page 42  of the  SDT Reference  Guide for
+       information on this configuration procedure).
+
+       The net  list generator  will extract  the data  in the  Part Field and
+       combine it  on the  "Module Name"  line of  the net list, which is just
+       where Tango wants to see it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                       Page 2

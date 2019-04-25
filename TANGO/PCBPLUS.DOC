@@ -1,0 +1,446 @@
+==PCBPLUS.DOC================TANGO-PCB PLUS==============Version 2.30==
+
+
+INTRODUCTION
+
+Tango-PCB  PLUS Version 2.30 contains the enhancements and  bug  fixes,
+described below.
+
+
+INSTALLATION INSTRUCTIONS
+
+ACCEL  has standardized on an automatic installation program,  INSTALL,
+which  uses compressed files on the distribution diskettes.  The Tango-
+PCB PLUS Reference Manual contains complete instructions for using this
+utility.   The minimum free disk space required for a full installation
+of this release is 3.2 MB.
+
+
+NEW FEATURES AND ENHANCEMENTS
+
+The  following  features have been added or improved in  this  release.
+Please  consult the Release Notes for a detailed description  of  these
+enhancements.
+
+OPTIMIZING  NETS  RECONNECT - Before this release, the  Nets  Reconnect
+     command  would  create bluelines in a daisy-chain fashion--without
+     regard  for  connection  lengths.  Now  Nets  Reconnect  optimizes
+     bluelines  as it creates them.  There is no choice of optimization
+     methods; Nets Reconnect always optimizes for total (x + y) length.
+     
+ENHANCED GERBER INPUT FOR PANELIZATION - Tango-PCB PLUS makes it easier
+     to  panelize your Gerber output.  Before this release,  loading  a
+     photoplot  file  would  clear the current design.   This  made  it
+     tedious  to create a layout with many panels, either of  the  same
+     layer  or  different ones.  Now loading a photoplot file does  not
+     clear the design, and you can choose the destination layer.   Note
+     that all holed apertures will produce through-hole pads; non-holed
+     apertures  will  produce  surface-pads  on  the  TOP  layer  only,
+     regardless of destination.
+     
+MORE GERBER  APERTURES  -  The  number of  Gerber  apertures  has  been
+     increased: the highest-numbered aperture is now 250.
+     
+     NOTE:  version  2.30  .DFN  files are not  fully  compatible  with
+     previous versions.  Versions before 2.30 will not process aperture
+     definitions for D-Codes over 99, but they will process assignments-
+     -reassign these by hand, or clear them and use the Auto button.
+     
+OUTPUT  REPORTS FILE VIEWER - Another output option has been  added  to
+     the  Output Reports destination group: the “View” option sends the
+     output  directly to the Viewer.  From the viewer, the entire  file
+     can be inspected, or output to a file or port.
+     
+DRIVERS  -  Several  graphics drivers and a printer  driver  have  been
+     added:
+     
+          VESA800.DRV     The  VESA800 graphics  driver  supports  VESA
+          graphics at 800x600 resolution.
+          
+          VESA1024.DRV    The  VESA1024 graphics driver  supports  VESA
+          graphics at 1024x768 resolution.
+          
+          VESA1280.DRV    The  VESA1200 graphics driver  supports  VESA
+          graphics in 1280x1024 resolution.
+          
+          VESA8G.DRV      The  VESA8G  graphics  driver  supports  VESA
+          graphics in 800x600 resolution, for VESA implementations with
+          Red and Green switched (GRB instead of RGB).
+          
+          VESA10G.DRV     The  VESA10G graphics  driver  supports  VESA
+          graphics  in  1024x768  resolution, for VESA  implementations
+          with Red and Green switched (GRB instead of RGB).
+          
+          VESA12G.DRV     The  VESA12G graphics  driver  supports  VESA
+          graphics  in  1280x1024 resolution, for VESA  implementations
+          with Red and Green switched (GRB instead of RGB).
+          
+          See VESA.DOC for more information.
+          
+          BJ180.DRV A Bubble Jet printer driver is now available.  This
+          driver  supports A and B sized Black/White output at  180x180
+          dpi for Cannon Bubble Jet printers.
+          
+KNOWN PROBLEMS
+
+1.   DXF OVAL PADS - Oval pads show up as lines in DXF output, when the
+     lines/arcs/circles option is selected.
+     
+2.   NETS  OPTIMIZE - This command currently does not support partially
+     routed  nets,  and  may  drop connections from  them  rather  than
+     optimizing.   If this happens, use Nets Reconnect to  replace  the
+     connections.
+     
+3.   OUTPUT  DRIVERS  -  Even though the driver input  control  in  the
+     second  Output  Plot/Print dialog will accept manual  entry,  this
+     entry  is  ignored; drivers can only be selected from the  drivers
+     list box.
+     
+4.   MOVE ENDPOINT - It is sometime possible to fool Move Endpoint  and
+     leave  a  dangling blueline.  If a line connected  to  another  is
+     deleted and replaced with a blueline, then the line is replaced by
+     Place  Line  (not Nets Route), Move Endpoint at that  intersection
+     may move the lines but leave the blueline.  This can be fixed with
+     Nets  Reconnect,  but it is always best to route connections  with
+     Nets Route.
+     
+5.   SELECT  LINE  - Some diagonal lines cannot be selected  except  at
+     their  endpoints;  others can be selected even if  the  cursor  is
+     close  to but not over the line.  These problems never occur  with
+     lines  at  90-  or 45-degree angles, but only with  non-orthogonal
+     lines.
+     
+6.   SQUARE APERTURES - If you use a Square Aperture draw aperture  you
+     may  see some 'chunks' missing from corners of your polygons  when
+     you load your photoplot file.
+     
+7.   BLUE  LINES  -  Deleting Polygons or Arcs, or Lines that  are  not
+     routed  to  Pad Centers, will not give 'blue lines'  if  they  are
+     deleted.
+     
+8.   MACROS - Under extreme low-memory conditions, you may receive  two
+     out-of-memory  error  messages while  recording  a  macro.   After
+     acknowledging the first, the program may appear to be hung but  it
+     is  actually  waiting for another acknowledgment: hit  <Enter>  to
+     return to normal processing.
+     
+9.   POLYGONS  -  Complicated polygons are those with many simultaneous
+     vertical edges; e.g., a polygon that looks like a horizontal  saw,
+     with  all  of  its  points at the same y-coordinate.   Complicated
+     polygons  outline  correctly, but do not  fill  correctly  on  the
+     display.   Also,  there  may  not  be  enough  memory  to   output
+     complicated  polygons,  depending on the  size,  scaling  factors,
+     available memory, and driver used (the Postscript drivers are  not
+     affected).  If you run out of memory while outputting, you can try
+     purging  the Undo information (File DOS will do this),  break  the
+     polygon into two or more smaller polygons, or rotate the image  to
+     change  the vertical edges into horizontal ones.  Also,  extremely
+     narrow polygons may not be displayed at some zoom levels.
+     
+
+
+ADDITIONAL CONSIDERATIONS
+
+1.   NETS  RECONNECT  WITH  MULTIPLE  PLANE  NETS  -  When  using  Nets
+     Reconnect with a split-plane design, you must make sure that  free
+     pads  and vias are disconnected from the power and ground  planes.
+     If  they  are connected, Nets Reconnect (and Nets Verify and  DRC)
+     will detect a short, and stop without filling primitives with  net
+     information.  If you wish to reload the netlist for  a board  with
+     free  pad  or via plane-connections, you must follow these  steps:
+     1)  disconnect  all free pads and vias from the power  and  ground
+     planes,  keeping track of them for future reference; 2)  load  the
+     netlist; 3) Nets Reconnect; 4) use Nets Plane Assign for the plane
+     nets  (this should replace all of your plane connections); 5)  run
+     Nets  Reconnect  again  if superfluous bluelines  remain;  and  6)
+     referring to your notes from step 1), reconnect any leftover  pads
+     and  vias to the power or ground planes.  Once the primitives have
+     net  information, you should never have to disconnect the pad  and
+     via plane connections in order to load your netlist.
+
+2.   NETS  ROUTE  SUSPENSION  - You can use "set TANGOSLASH=string"  in
+     your  AUTOEXEC.BAT file to assign alternate keys  for  suspension;
+     there  are  several  things to keep in mind.  You  must  use  only
+     printable characters in your string.  These characters can have no
+     other  meanings: hotspot and macro keys will not work.  Using  the
+     TANGOSLASH  variable  at all replaces the  slash  keys  with  your
+     string; the slash keys will no longer work unless included in your
+     string.
+
+3.   POSTSCRIPT  CARTRIDGES  - Some PostScript  cartridges  cause  port
+     timeout errors; this usually happens because they are not finished
+     processing the current page when sent more data, and they have not
+     set  the  port busy-flag. Some cartridges redefine the  page  size
+     regardless of instructions received to the contrary; these devices
+     print out an A4-size output on two A4-size sheets instead of  one.
+     Neither of these problems occur on any true PostScript printer  we
+     have tested or on other cartridges.
+
+4.   KEYWORDS  - The .DATE, .TIME, or .FILENAME keywords are  refreshed
+     whenever  output--whether  the  output  is  to  the  screen  or  a
+     peripheral device.  Only the keyword strings are stored, not their
+     resultant  text.  This means that selecting them for movement  may
+     create "text placed on text" for the keyword.  This does not occur
+     for  .FILENAME.  It can occur for .DATE if placed today and  moved
+     tomorrow,  and occurs often for .TIME.  Zoom Redraw  corrects  the
+     display.  When printing, if the .TIME keyword crosses two or  more
+     printing passes, its output may change between them.
+
+5.   ROUTING WITH MULTIPLE PLANE NETS - Tango-Route PLUS fully supports
+     designs with one power and one ground net, but has limited support
+     for  the  Multiple  Plane Nets feature in  this  version:   unless
+     surface-mount pads are fanned out to vias in Tango-PCB PLUS, Tango
+     Route  PLUS will not route them or otherwise connect them  to  the
+     plane;  if fanned out to vias, the vias will be connected  to  the
+     plane.  Tango RoutePRO supports a maximum of one power net and one
+     ground net.
+
+6.   DESIGN-BASED  .INI  FILES  -  If the program  is  started  without
+     specifying  a design file, the PCB.INI file is always  loaded  and
+     processed  first, before the design-based .INI file referenced  in
+     PCB.INI.    The   colors  and  settings  (including  speed-palette
+     display) stored in PCB.INI will appear momentarily, to be replaced
+     immediately  by  the design-based .INI colors and settings.   This
+     will  occur when you start the program without specifying a design
+     file.
+
+7.   DESIGN-BASED INI FILES - Remember that design-based INI files  are
+     only  saved  if the design file is explicitly saved.   This  means
+     that  Setup  DRC and Output Reports information and  changes,  for
+     instance, will be lost unless you save the design file.  The  rule
+     of  thumb  is  now more valid than ever:  when you  want  to  keep
+     something, save!  PCB.INI always contains the current setting when
+     you exit the program.
+
+8.   DESIGN-BASED  DFN FILES - When Tango-PCB PLUS finds  and  loads  a
+     design-based  DFN file, it first clears all definitions.   If  you
+     have line, pad, via, text, custom speed-palette or CAM definitions
+     or  assignments  that you want to keep, make sure they  are  saved
+     into  a  design-based DFN file (you will be prompted to do  this),
+     because  they  may be overwritten when you load  your  next  file.
+     Clearing the DFNs keeps your environment free from the clutter  of
+     unused DFNs.  For instance, before this release it was quite  easy
+     to  accumulate hundreds of unused pad definitions, which you would
+     have to prune by hand (using the Current Pad command) just to keep
+     them   manageable.   If  you  wish  to  load  additional   non-CAM
+     definitions, use the File Load command to load the desired file as
+     a  block, then delete the block:  new DFNs are always created  for
+     new  items  placed in the workspace.  PCB.DFN always contains  the
+     current DFNs when you exit the program.
+
+9.   OUTPUT  TYPE  SETTINGS  - Remember that each  output  type  (Plot,
+     Print,  PostScript, and DXF) has its own complete  set  of  output
+     parameters including scaling values and the destination  port  (or
+     file).   When  you  change types (using the  driver  List  button,
+     driver names can be typed into the input control but they will not
+     register  unless selected using List), the program  remembers  the
+     parameters for the old type, and replaces them with the remembered
+     parameters for the new type--the changes have not been lost.
+
+10.  DXF-IN  DIMENSIONS - When working with dimensions in  AutoCAD,  be
+     sure to use the PURGE command before output to DXF.  Each time you
+     move  or  otherwise change a dimension, AutoCAD generates  another
+     image  for the dimension; these leftover images are output to  DXF
+     unless you the PURGE command beforehand.
+
+11.  DXF-IN VALUES - Remember that DXF items that exceed Tango-PCB PLUS
+     specifications  cannot be loaded into the workspace.   Items  that
+     fall  outside  the workspace boundary, are too big, or  too  thick
+     will be discarded after an appropriate error message.  If you need
+     such  items to be loaded, you must alter them in your CAD  program
+     before  loading the DXF file.  Remember too that many CAD programs
+     use external utilities for DXF Export and Import:  changes made in
+     the program itself may not be reflected in the DXF file unless you
+     run the utility.
+
+12.  GERBER  FILE LOAD - Remember that in order to load and  display  a
+     photoplot file correctly, your current aperture descriptions  must
+     match  those  used  to  create the file.  If  you  have  loaded  a
+     different design file, the current aperture data will be  replaced
+     if  there is a DFN file corresponding to that design file.  If you
+     are  unsure about your aperture descriptions, the safest procedure
+     is  to  reload the design file to get its DFN file, then load  the
+     photoplot file; do a File Clear before loading the photoplot  file
+     if  you  don't want the clutter--DFNs are cleared only by  loading
+     another DFN file.
+
+13.  AUTOSAVE - If an AutoSave hits during a Zoom command, the save  is
+     canceled.
+
+14.  BLUE  LINES/DELETE  VIA  -  Deleting  a  Via  that  contains   Net
+     information  will not generate a connection line  (or  consolidate
+     connection  lines).  If you are deleting 2 line segments  and  the
+     Via  that connects them, be sure to delete the Via before deleting
+     both  line  segments.  If you delete the Via after  deleting  both
+     line segments, the connection lines will not be consolidated,  and
+     Nets  Route will force you to route to the location of the deleted
+     Via.   If  you use Delete Highlight or Delete Block to remove  the
+     Lines and Via you will not see this problem.
+
+15.  .DRV  FILES  -  Do not place any non-supplied .DRV  files  in  the
+     directory with your Tango .DRV files.  Tango software looks at the
+     .DRV files to present the list of output drivers to the user.   If
+     non-supplied files exist in the directory, unexpected behavior may
+     result.
+
+16.  LISTING  FILES - Due to the changes we made in filename  filtering
+     in  the  File Load list box, you can no longer use X*.PCB to  list
+     all  of  your  .PCB  files that start with X.   You  can  use  the
+     technique to filter files in the second list box.
+
+17.  BINARY  FILES COMPATIBILITY - The current versions of Tango  Route
+     PRO  will  not support binary files.  You must save off  the  file
+     using ASCII format before routing.
+
+18.  METRIC GRIDS - Because the resolution of our database is 1 mil, we
+     can  only   display or save items in 1 mil increments (not  .1mm).
+     The metric grid coordinates that display on the Status Line should
+     be thought of as an on-screen calculator that converts an imperial
+     location to a metric location.  The visible grid only displays  in
+     imperial units.
+
+19.  MACROS  -  Because some commands have been changed, and  some  new
+     commands have been added, you may find that some Macros that  were
+     recorded  in versions prior to 2.30 may no longer work  correctly.
+     You  will  have to re-record any macros that no longer work  using
+     version 2.30.
+
+20.  MACROS  -  If  a  macro  contains two  or  more  separate  editing
+     commands,  UNDO will only affect the last one; it will not  affect
+     the entire macro.
+
+21.  VERSION  1.16 TO 2.30 CONSIDERATIONS - 2.30 requires more  netlist
+     information than is contained in version 1.XX files;  be  sure  to
+     reload your netlist file to insure proper processing.
+
+22.  PIN  DESIGNATOR MISMATCH - If the pin designators of  a  component
+     you  are  auto-placing are different from those  of  the  netlist,
+     those  connections  cannot be made.  Also,  if  you  have  already
+     placed  a component whose pin designators disagree with a  netlist
+     that  you  load,  connections cannot be made, and  no  warning  is
+     given.   Run  the  Unplaced  Nodes  DRC  Report  to  detect  these
+     potential problems.
+
+23.  OBSOLETE OVERLAY FILES - Overlay files (.OV1 and .OV2) are no
+longer used. Delete PCB.OV1 and PCB.OV2 (left over from 1.16) from your
+PCB directory.
+
+
+          GRAPHICS CARDS/TANGO DRIVER LIST
+
+RESOLUTION COLORS   GRAPHICS CARD         Tango DRIVER
+
+640 X 480      IBM MCGA (Monochrome)         MCGA
+720 X 348      Hercules Graphics (Mono)      HERCULES
+
+640 X 350  16  ATI EGA WONDER                EGA
+640 X 350  16  ATI VGA WONDER                EGA
+640 X 350  16  EIZO MD-B07 VGA               EGA
+640 X 350  16  EIZO MD-B10 VGA               EGA
+640 X 350  16  GENOA SuperVGA                EGA
+640 X 350  16  IBM EGA or Compatible         EGA
+640 X 350  16  QUAD GTI SuperVGA             EGA
+640 X 350  16  Sigma VGA/H                   EGA
+640 X 350  16  SOTA  VGA/16                  EGA
+640 X 350  16  Tecmar VGA/AD                 EGA
+640 X 350  16  Video7 VEGA Deluxe            EGA
+
+640 X 480  16  ATI VGA Wonder                VGA
+640 X 480  16  Colorgraphics EGA             EGA
+640 X 480  16  EIZO MD-B07 VGA               VGA
+640 X 480  16  EIZO MD-B10 VGA               VGA
+640 X 480  16  EVEREX Micro Enhancer EGA     EGA
+640 X 480  16  GENOA SuperEGA                EGA
+640 X 480  16  GENOA SuperVGA                VGA
+640 X 480  16  IBM VGA                       VGA
+640 X 480  16  IBM PS/2 VGA                  VGA
+640 X 480  16  NEC GB1                       VGA
+640 X 480  16  Paradise EGA                  EGA
+640 X 480  16  PCG VGA                       VGA
+640 X 480  16  QUAD EGA ProSync              EGA
+640 X 480  16  QUAD GTI SuperVGA             VGA
+640 X 480  16  Sigam VGA/H                   VGA
+640 X 480  16  SOTA VGA/16                   VGA
+640 X 480  16  Tecmar VGA/AD                 VGA
+640 X 480  16  Tseng Labs EGA 480            EGA
+640 X 480  16  Video7 VEGA Deluxe            VGA;VSEVDLX
+
+640 X 528  16  GENOA SuperEGA                CUSTOM/SVGA
+
+720 X 540  16  Video7 VGA                    VSEV720
+
+800 X 600  16  Ahead VGA Wizard+/Wiz Deluxe  CUSTOM/SVGA
+800 X 600  16  AST VGA Plus                  CUSTOM/SVGA
+800 X 600  16  ATI ULTRA                     ATI800
+800 X 600  16  ATI VGA Wonder                ATI800
+800 X 600  16  BOCA Super VGA                CUSTOM/SVGA
+800 X 600  16  Cardinal VGA600               CUSTOM/SVGA
+800 X 600  16  Chips & Tech. Super VGA       CUSTOM/SVGA
+800 X 600  16  Diamond Speedstar             TSENG800
+800 X 600  16  Diamond Speedstar 24X         PARA800
+800 X 600  16  Diamond Stealth               ORCS3800
+800 X 600  16  EIZO MD-B10 VGA               CUSTOM/SVGA
+800 X 600  16  EVEREX Micro Enhancer EGA     CUSTOM/SVGA
+800 X 600  16  EVEREX ViewPoint 256 / 512    CUSTOM/SVGA
+800 X 600  16  GENOA SuperVGA 5400/6400      GEN800
+800 X 600  16  GENOA SuperVGA 7400 Series    TSENG800
+800 X 600  16  GENOA SuperVGA 8000 Series    ORCS3800
+800 X 600  16  Hewlett-Packard VGA           CUSTOM/SVGA
+800 X 600  16  OAK OTI-067 VGA               OAK800
+800 X 600  16  Orchid Fahrenheit 1280        ORCS3800
+800 X 600  16  Orchid ProDesigner Plus       ORC800
+800 X 600  16  Orchid ProDesignerII/IIs      ORC800
+800 X 600  16  Paradise EGA or VGA           PARA800
+800 X 600  16  PCG PHOTON MEGA PLUS VGA      CUSTOM/SVGA
+800 X 600  16  QUAD GTI SuperVGA             CUSTOM/SVGA
+800 X 600  16  Renaissance RVGA I/II         CUSTOM/SVGA
+800 X 600  16  Sigma VGA/H                   CUSTOM/SVGA
+800 X 600  16  SOTA VGA/16                   CUSTOM/SVGA
+800 X 600  16  STB VGA                       CUSTOM/SVGA
+800 X 600  16  STB Powergraph VGA            TSENG800
+800 X 600  16  Tatung TVGA-16                CUSTOM/SVGA
+800 X 600  16  Tatung VGA                    CUSTOM/SVGA
+800 X 600  16  Tecmar VGA/AD                 CUSTOM/SVGA
+800 X 600  16  TIGA Hercules Graph Station   TIGA
+800 X 600  16  Trident TVGA VGA / 8900       TRI800
+800 X 600  16  TSENG 4000                    TSENG800
+800 X 600  16  Super VGA                     CUSTOM/SVGA
+800 X 600  16  VESA                          VESA800
+800 X 600  16  VESA (GRB Color Palette)      VESA8G
+800 X 600  16  Video7 VGA                    CUSTOM/SVGA
+800 X 600  16  Video7 Fastwrite              VSEV800
+800 X 600  16  Wizard Deluxe EGA             CUSTOM/SVGA
+800 X 600  16  ZyMOS POACH 51 VGA            CUSTOM/SVGA
+
+1024 X 768 16  ATI VGA WONDER XL             ATI1K
+1024 X 768 16  ATI ULTRA                     ATI1K
+1024 X 768 16  Diamond Speedstar             TSENG1K
+1024 X 768 16  Diamond Stealth               ORCS31K
+1024 X 768 16  EIZO B10                      GEN1024
+1024 X 768 16  GENOA SuperVGA 5400/6400      GEN1024
+1024 X 768 16  GENOA SuperVGA 7400 Series    TSENG1K
+1024 X 768 16  GENOA SuperVGA 8000 Series    ORCS31K
+1024 X 768 16  OAK OTI-067 VGA               OAK1K
+1024 X 768 16  Orchid ProDesigner VGA Plus   ORC1024
+1024 X 768 16  Orchid ProDesigner II/IIs     TSENG1K
+1024 X 768 16  Orchid Fahrenheit 1280        ORCS31K
+1024 X 768 16  Paradise VGA1024              GEN1024
+1024 X 768 16  Sigma Designs VGA/X16         GEN1024
+1024 X 768 16  SOTA VGA/16                   GEN1024
+1024 X 768 16  STB Powergraph                TSENG1K
+1024 X 768 16  TIGA Hercules Graph Station   TIGA
+1024 X 768 16  Trident 8900 Series           TRI1024
+1024 X 768 16  TSENG 4000 Series             TSENG1K
+1024 X 768 16  VESA                          VESA1024
+1024 X 768 16  VESA (GRB Color Palette)      VESA10G
+1024 X 768 16  Video7 VRAM                   VSEV1024
+1024 X 768 16  Video7 VRAM II                VSEV1024
+1024 X 768 16  Western Digital 90C00         ORC1024
+
+1280 X 1024 16 VESA                          VESA1280
+1280 X 1024 16 VESA (GRB Color Palette)      VESA12G
+
+
+
+
+

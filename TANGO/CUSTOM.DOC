@@ -1,0 +1,186 @@
+            =========================CUSTOM.DOC=========================
+
+            Custom Super-VGA drivers:
+
+            The driver SVGA.DRV is used in conjunction with the setup
+            utility CUSTOM.EXE to customize a driver for resolutions up
+            to 832x624.  CUSTOM.EXE modifies your AUTOEXEC.BAT file to
+            add a line of driver parameter information which SVGA.DRV
+            uses to set your graphics board into the requested 16-color
+            mode.  In order to use CUSTOM.EXE, your board must support
+            some Super-VGA mode at or below the above mentioned
+            resolution (800x600 is most common).  The video BIOS ROM on
+            the board must support such a mode, 16-color drawing in that
+            mode must be done using the standard VGA hardware registers,
+            and the video memory must be mapped to the standard VGA
+            address at segment 0A000H.  All of the above qualifications
+            must be confirmed in the hardware documentation which came
+            with your board.  If all of the above qualifications are
+            met, then you may use CUSTOM.EXE to set up your system to
+            run a 16-color 800x600 driver.  You will also have to
+            determine the mode number of the super-VGA graphics mode
+            which you will wish to enter, and the setting of the CPU
+            registers for the mode setting call (video INT 10h).  This
+            information should be in your hardware documentation.
+
+            At the DOS prompt, invoke CUSTOM.EXE by typing:
+
+                 C> custom
+
+            followed by a carriage return.
+
+            CUSTOM will initially ask for the X- & Y-resolutions of the
+            desired driver.  Assuming we wish to generate an 800x600
+            driver, respond with the following:
+
+                 SVGA X-resolution [640]?  800
+                 SVGA Y-resolution [480]?  600
+
+            Follow each response with a carriage return.  The currently
+            selected default appears in square brackets.  If at any time
+            you wish to select the default, respond with a carriage
+            return.
+
+            After specifying the screen resolution, CUSTOM now asks
+            about aspect ratio correction.  Most color monitors have the
+            required 4:3 aspect ratio, so the correction factor 1.00
+            should be used.  However it is expressed as a percentage;
+            so, 1.00 = 100%.  If your screen needs to be stretched in
+            the vertical direction, use a percentage greater than 100;
+            for example, the correction factor for EGA resolution
+            (640x350) is 1.37, or 137%.  For 800x600, the correction
+            factor is 1.00, or 100%.
+
+                 Aspect ratio correction  [100]?
+
+
+
+
+                                     Page 1
+
+
+
+
+
+            =========================CUSTOM.DOC=========================
+            The above line assumes that the computed default value, 100,
+            is the one which is desired.
+
+            CUSTOM will now ask for the CPU register values for the mode
+            setting call (video INT 10H).  A 16 bit CPU register value
+            has two halves.  The upper or high 8 bits of the AX register
+            are in AH and the lower 8 bits are in AL.  When CUSTOM asks
+            for the values of the CPU registers required for setting
+            your video card, you should supply both halves of the
+            register as a single hexadecimal value.  For example, if
+            your hardware documentation specifies that AH should be set
+            to 6Fh and AL set to 05h for a particular mode setting, then
+            the AX register would have a value of 6F05.  A typical
+            user's manual for a video card may only give a mode value
+            for a particular graphics resolution.  In general, this
+            assumes that AL should be set to that mode value and that AH
+            should be set to 00h.  For example,  the Orchid Pro-Designer
+            board requires a mode value of 29h.  So the correct
+            responses for the Orchid board are:
+
+                 Hexadecimal MODE value for AX [0012]?  0029
+                 Hexadecimal MODE value for BX [0000]?
+                 Hexadecimal MODE value for CX [0000]?
+                 Hexadecimal MODE value for DX [0000]?
+
+            Note that BX, CX, and DX are "don't care's" and are
+            indicated by responding with a carriage return.
+
+            For the Video 7 VRAM board, the mode setting call requires
+            AX=6F05h, and BX=62h; CX and DX are don't care values.  Note
+            that BX=62h is the same as BX=0062h which is the same as
+            BH=00h and BL=62h.  The correct responses are as follows for
+            the Video 7 VRAM board:
+
+                 Hexadecimal MODE value for AX [0012]?  6F05
+                 Hexadecimal MODE value for BX [0000]?  0062
+                 Hexadecimal MODE value for CX [0000]?
+                 Hexadecimal MODE value for DX [0000]?
+
+            After the above dialog, you will be allowed to go back and
+            make any corrections:
+
+                 Do you wish to change any of the above [Y]?  N
+
+            Respond "N" when you are satisfied.  Finally you will be
+            asked if you wish to change your AUTOEXEC.BAT file.  If you
+            choose to modify this file, then every time you boot, the
+            correct environment setting for TANGODRV=  will be placed in
+            the environment.  Otherwise, the file SVGA.BAT will be
+            created in directory C:\, and will have to be executed
+            whenever you wish to set the TANGODRV=  environment
+            variable.
+
+                 Do you wish to update AUTOEXEC.BAT now [N]?
+
+
+                                     Page 2
+
+
+
+
+
+            =========================CUSTOM.DOC=========================
+
+            If you choose "N", then the following comment will appear:
+
+                 Updating the file C:\SVGA.BAT
+
+            If you choose "Y", then the following comment will appear:
+
+                 Updating the file C:\AUTOEXEC.BAT
+
+            You must either execute the batch file "SVGA", or re-boot
+            your computer to make sure the TANGODRV=  environment
+            variable is properly set.  You may confirm its setting with
+            the DOS command "SET", used to examine the environment
+            variable settings.
+
+            With TANGODRV=  set properly, you may now run the TANGO
+            application program, say, PCB or SCH, specifying SVGA as the
+            driver:
+
+                 PCB /g:SVGA
+
+                       or; e.g.,
+
+                 SCH /g:C:\TANGO\MYDIR\SVGA
+
+            The first example above assumes that SVGA.DRV exists in the
+            directory from which you invoke PCB.  Otherwise you will
+            have to precede the driver name with a full pathname, as in
+            the second example for SCH.  Note that you need only invoke
+            the application in this manner once; it will remember what
+            graphics driver to use in the future.
+
+            Lastly, if the CUSTOMized driver does not work, revert to
+            the VGA driver with:
+
+                 PCB /g:VGA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                     Page 3
+

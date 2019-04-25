@@ -1,0 +1,45 @@
+                                                        10/28/94
+Notes for the VESA drivers:
+Many graphics card can be made VESA-compatible by running a TSR. Check
+your graphics card documentation for Vesa compatibility information
+specific to your card.
+
+
+        VESA800.DRV      800x600x16 colors
+        VESA1024.DRV    1024x768x16 colors
+        VESA1280.DRV   1280x1024x16 colors
+
+Some cards use a GRB palette (instead of RGB) for the 1024 and 1280
+modes.  If this is the case, the red and green colors will be
+reversed.  If it is necessary, use the following drivers to map the
+colors appropriately:
+
+        VESA8G.DRV       800x600x16 colors (GRB palette)
+        VESA10G.DRV     1024x768x16 colors (GRB palette)
+        VESA12G.DRV    1280x1024x16 colors (GRB palette)
+
+Known cards and appropriate driver sets include:
+
+
+        Diamond Stealth 24 VLB:         (S3 - 805 chip)
+                VESA800.DRV
+                VESA10G.DRV
+                VESA12G.DRV
+
+        Video 7 1024i:
+                VESA800.DRV
+                VESA10G.DRV
+                (1280x1024 not supported)
+
+        Trident:
+                VESA800.DRV
+                VESA10G.DRV
+                (1280x1024 not supported)
+
+        Tseng Labs ET4000:
+                VESA800.DRV
+                VESA10G.DRV     (problem with bank switching)
+                (1280x1024 not supported)
+
+
+
