@@ -1,8 +1,8 @@
-## About
+# About
 
 Tango PCB in DosBox PC emulator.
 
-### DosBox Install
+## DosBox Install
 
 Arch:
 
@@ -12,10 +12,10 @@ Ubuntu:
 
 ```sudo apt-get install dosbox```
 
-### Running
+## Running
 
 ``sh tango.sh``
 
-### Notes
+## Notes
 
 C:\ is mapped to the repository root directory.
